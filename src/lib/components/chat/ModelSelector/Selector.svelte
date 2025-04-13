@@ -457,7 +457,8 @@
 					</div>
 				{/if}
 
-				{#each filteredItems.filter((item) => !(item.model?.info?.meta?.hidden ?? false)) as item, index}
+				{#each filteredItems.filter((item) => !(item.model?.info?.meta?.hidden ?? false)
+				&& item.model?.pricing?.prompt == 0 && item.model?.pricing?.completion == 0) as item, index}
 					<button
 						aria-label="model-item"
 						class="flex w-full text-left font-medium line-clamp-1 select-none items-center rounded-button py-2 pl-3 pr-1.5 text-sm text-gray-700 dark:text-gray-100 outline-hidden transition-all duration-75 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer data-highlighted:bg-muted {index ===
@@ -498,34 +499,39 @@
 													alt="Model"
 													class="rounded-full size-5 flex items-center mr-2"
 												/>
-
-												<div class="flex items-center line-clamp-1">
-													<div class="line-clamp-1">
-														{item.label}
-													</div>
-
-													{#if item.model.owned_by === 'ollama' && (item.model.ollama?.details?.parameter_size ?? '') !== ''}
-														<div class="flex ml-1 items-center translate-y-[0.5px]">
-															<Tooltip
-																content={`${
-																	item.model.ollama?.details?.quantization_level
-																		? item.model.ollama?.details?.quantization_level + ' '
-																		: ''
-																}${
-																	item.model.ollama?.size
-																		? `(${(item.model.ollama?.size / 1024 ** 3).toFixed(1)}GB)`
-																		: ''
-																}`}
-																className="self-end"
-															>
-																<span
-																	class=" text-xs font-medium text-gray-600 dark:text-gray-400 line-clamp-1"
-																	>{item.model.ollama?.details?.parameter_size ?? ''}</span
+													<div class="flex items-center line-clamp-1">
+															<div class="line-clamp-1">
+																{item.label}
+																<div class="line-clamp-1 text-xs text-gray-400">
+																	$ {(item.model?.pricing?.prompt * 6).toFixed(2)} input tokens
+																</div>
+																<div class="line-clamp-1 text-xs text-gray-400">
+																	$ {(item.model?.pricing?.completion * 6).toFixed(2)} output tokens
+																</div>
+															</div>
+														
+														{#if item.model.owned_by === 'ollama' && (item.model.ollama?.details?.parameter_size ?? '') !== ''}
+															<div class="flex ml-1 items-center translate-y-[0.5px]">
+																<Tooltip
+																	content={`${
+																		item.model.ollama?.details?.quantization_level
+																			? item.model.ollama?.details?.quantization_level + ' '
+																			: ''
+																	}${
+																		item.model.ollama?.size
+																			? `(${(item.model.ollama?.size / 1024 ** 3).toFixed(1)}GB)`
+																			: ''
+																	}`}
+																	className="self-end"
 																>
-															</Tooltip>
-														</div>
-													{/if}
-												</div>
+																	<span
+																		class=" text-xs font-medium text-gray-600 dark:text-gray-400 line-clamp-1"
+																		>{item.model.ollama?.details?.parameter_size ?? ''}</span
+																	>
+																</Tooltip>
+															</div>
+														{/if}
+													</div>
 											</Tooltip>
 										</div>
 									</div>
