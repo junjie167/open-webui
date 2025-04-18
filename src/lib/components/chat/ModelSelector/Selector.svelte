@@ -503,10 +503,10 @@
 															<div class="line-clamp-1">
 																{item.label}
 																<div class="line-clamp-1 text-xs text-gray-400">
-																	$ {(item.model?.pricing?.prompt * 6).toFixed(2)} input tokens
+																	$ {(item.model?.pricing?.prompt * 1000000).toFixed(2)} input tokens
 																</div>
 																<div class="line-clamp-1 text-xs text-gray-400">
-																	$ {(item.model?.pricing?.completion * 6).toFixed(2)} output tokens
+																	$ {(item.model?.pricing?.completion * 1000000).toFixed(2)} output tokens
 																</div>
 															</div>
 														
